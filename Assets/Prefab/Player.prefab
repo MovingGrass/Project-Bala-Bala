@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2119324311475194364}
   - component: {fileID: 4962104412843244029}
   - component: {fileID: 433552248899025836}
+  - component: {fileID: 590130883770332291}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -154,6 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abd94542fa073b84a9974ac2cd857294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  canDash: 0
+  dashCooldown: 0.5
+  pauseManager: {fileID: 0}
 --- !u!114 &4962104412843244029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,3 +182,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e831bbe32bbbd284094876d53968d936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+--- !u!114 &590130883770332291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738205776214979340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753d2eb4e90cef0488c44fb553c73222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerGetMousePosition

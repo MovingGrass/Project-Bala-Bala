@@ -7,6 +7,15 @@
             "id": "ef18aeb3-94c3-48f2-a2c8-708063bc4d6d",
             "actions": [
                 {
+                    "name": "MouseUpdate",
+                    "type": "Value",
+                    "id": "c706fe70-c240-457a-bf75-986b4d4bbfaa",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Dash",
                     "type": "Button",
                     "id": "d02c2d26-1806-4ffb-b2b1-609b6c890d26",
@@ -39,7 +48,7 @@
                     "id": "251bdcf5-4d87-46af-9313-aa3659b4a319",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "initialStateCheck": false
                 },
                 {
@@ -48,7 +57,7 @@
                     "id": "cf65121b-a5db-4ea3-8c86-55656bb2bd66",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "initialStateCheck": false
                 },
                 {
@@ -57,7 +66,7 @@
                     "id": "dbf69267-1bc4-4040-9894-684f8b3b0afb",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "initialStateCheck": false
                 }
             ],
@@ -70,6 +79,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "33adabcf-100c-4a51-ab54-ca46166807f2",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseUpdate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

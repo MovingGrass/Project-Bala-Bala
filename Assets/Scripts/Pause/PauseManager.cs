@@ -1,16 +1,31 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class PauseManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public bool isPaused;
+
+    public void OnPress(InputAction.CallbackContext context)
     {
-        
+        if (context.interaction is TapInteraction)
+        {
+            if (context.performed)
+            {
+                ChangePauseState();
+                openCanvas();
+                Debug.Log("Paused");
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangePauseState()
     {
-        
+        isPaused = !isPaused;
+    }
+    private void openCanvas()
+    {
+
     }
 }
+

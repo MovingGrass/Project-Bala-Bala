@@ -1,8 +1,8 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.InputSystem;
 
-public class OpenInventory : MonoBehaviour
+public class OpenSpiritMenu : MonoBehaviour
 {
 
     public void OnPress(InputAction.CallbackContext context)
@@ -12,7 +12,7 @@ public class OpenInventory : MonoBehaviour
             if (context.performed)
             {
                 openCanvas();
-                Debug.Log("Open Inventory");
+                Debug.Log("Open Spirit Menu");
             }
         }
     }
