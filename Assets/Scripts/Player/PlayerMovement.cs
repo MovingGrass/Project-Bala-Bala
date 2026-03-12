@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Related")]
     public bool canDash;
     public float dashCooldown;
+    public float speed;
 
     [Header("Current Screen")]
     public Vector2 screenSize;
@@ -61,7 +62,8 @@ public class PlayerMovement : MonoBehaviour
         screenSize = new Vector2(Screen.width, Screen.height);
         middle = new Vector2(Screen.width/2, Screen.height/2);
 
-        Vector2 diff = middle - dir;
+        Vector3 diff = new Vector3(middle.x - dir.x, this.transform.localPosition.y , middle.y - dir.y).normalized;
+        transform.position += diff * speed * Time.deltaTime;
 
         //compare the size
         Debug.Log(diff);

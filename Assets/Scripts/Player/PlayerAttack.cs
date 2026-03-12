@@ -4,17 +4,7 @@ using UnityEngine.InputSystem.Interactions;
 
 public class PlayerAttack : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    bool _isCharging;
 
     public void SonicCharge(InputAction.CallbackContext context)
     {
@@ -22,7 +12,13 @@ public class PlayerAttack : MonoBehaviour
         {
             if (context.performed)
             {
+                _isCharging = true;
                 Debug.Log("Charging");
+            }
+            else if (context.canceled && _isCharging)
+            {
+                _isCharging = false;
+                Debug.Log("Sonic Slash");
             }
         }
     }
