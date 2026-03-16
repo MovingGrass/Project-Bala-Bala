@@ -1,71 +1,88 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Player Related")]
-    public bool canDash;
-    public float dashCooldown;
-    public float speed;
+    [Header("Dash Settings")]
+    public float dashForce = 15f;
+    public float dashDuration = 0.2f; // Berapa lama dash berlangsung
+    public float dashCooldown = 1f;
+    private bool canDash = true;
 
-    [Header("Current Screen")]
-    public Vector2 screenSize;
-    public Vector2 middle;
-
-    [Header("Reference related")]
+    [Header("References")]
     public PauseManager pauseManager;
-    private PlayerGetMousePosition _playerGetMousePos;
+    private PlayerGetMousePosition _mousePosRef;
+    private Rigidbody _rb;
 
-    private void Start()
+    private void Awake()
     {
-        canDash = true;
-        _playerGetMousePos = GetComponent<PlayerGetMousePosition>();
+        _rb = GetComponent<Rigidbody>();
+        _mousePosRef = GetComponent<PlayerGetMousePosition>();
+        
+        _rb.isKinematic = false;
     }
 
     public void StartDash(InputAction.CallbackContext context)
     {
-        if (context.interaction is TapInteraction && canDash && !pauseManager.isPaused)
+        
+        if (context.performed && canDash && !pauseManager.isPaused)
         {
-            if (context.performed)
-            {
-                StartCoroutine(StartDashing(dashCooldown));
-                Debug.Log("Start Dashing");
-            }
+            StartCoroutine(PerformDash());
         }
-        else
+
+        if (context.started)
         {
-            Debug.Log("Cannot Dash");
+            Debug.Log("Input dash terdeteksi oleh sistem.");
+        }
+
+        if (context.performed)
+        {
+            if (!canDash)
+            {
+                Debug.Log("Dash gagal: Masih dalam cooldown.");
+                return;
+            }
+
+            if (pauseManager.isPaused)
+            {
+                Debug.Log("Dash gagal: Game sedang di-pause.");
+                return;
+            }
+
+            Debug.Log("Dash berhasil di-trigger!");
+            StartCoroutine(PerformDash());
         }
     }
 
-    IEnumerator StartDashing(float delay)
+    private IEnumerator PerformDash()
     {
         canDash = false;
 
-        CheckDirection(_playerGetMousePos.screenSpace);
+        
+        Ray ray = Camera.main.ScreenPointToRay(_mousePosRef.screenSpace);
+        Plane groundPlane = new Plane(Vector3.up, Vector3.zero); 
+        
+        if (groundPlane.Raycast(ray, out float rayDistance))
+        {
+            Vector3 targetPoint = ray.GetPoint(rayDistance);
+            
+            
+            Vector3 dashDirection = (targetPoint - transform.position).normalized;
+            dashDirection.y = 0; 
 
-        yield return new WaitForSeconds(delay);
+            
+            _rb.linearVelocity = dashDirection * dashForce;
+        }
 
+       
+        yield return new WaitForSeconds(dashDuration);
+        _rb.linearVelocity = Vector3.zero;
+
+        
+        yield return new WaitForSeconds(dashCooldown - dashDuration);
         canDash = true;
-        Debug.Log("Can Dash now");
-    }
-
-
-    /// <summary>
-    /// curr hitung buat 8 arah dash, may change
-    /// </summary>
-    /// <param name="dir"></param>
-    private void CheckDirection(Vector2 dir)
-    {
-        screenSize = new Vector2(Screen.width, Screen.height);
-        middle = new Vector2(Screen.width/2, Screen.height/2);
-
-        Vector3 diff = new Vector3(middle.x - dir.x, this.transform.localPosition.y , middle.y - dir.y).normalized;
-        transform.position += diff * speed * Time.deltaTime;
-
-        //compare the size
-        Debug.Log(diff);
+        Debug.Log("Dash siap digunakan");
     }
 }

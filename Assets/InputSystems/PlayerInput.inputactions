@@ -21,7 +21,7 @@
                     "id": "d02c2d26-1806-4ffb-b2b1-609b6c890d26",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "Tap(duration=1)",
                     "initialStateCheck": false
                 },
                 {
@@ -74,7 +74,7 @@
                 {
                     "name": "",
                     "id": "a32c17bb-f0e0-4199-bf74-5c4421a2daf8",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
@@ -145,6 +145,34 @@
                     "processors": "",
                     "groups": ";Keyboard",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "New action map",
+            "id": "f98dab84-726c-4ae5-888d-0e02c0bbb80b",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "e816a4b6-1fa1-486a-a26e-1c9800ab6125",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "042b809b-97d9-4ae1-9075-dca4f38c2698",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
