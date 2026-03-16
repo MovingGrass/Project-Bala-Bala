@@ -85,4 +85,14 @@ public class PlayerMovement : MonoBehaviour
         canDash = true;
         Debug.Log("Dash siap digunakan");
     }
+
+    //void Update()
+    //{
+    //    if (Mouse.current == null) { Debug.LogError("No mouse device!"); return; }
+    //
+    //    if (Mouse.current.leftButton.wasPressedThisFrame)
+    //        Debug.Log("RAW left click detected");
+    //
+    //    Debug.Log("RAW mouse pos: " + Mouse.current.position.ReadValue());
+    //}
 }

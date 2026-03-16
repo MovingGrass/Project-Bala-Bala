@@ -30,7 +30,7 @@
                     "id": "740d0a17-31ef-4b4f-b2d2-ebfdfca133bd",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -145,34 +145,6 @@
                     "processors": "",
                     "groups": ";Keyboard",
                     "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "New action map",
-            "id": "f98dab84-726c-4ae5-888d-0e02c0bbb80b",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "e816a4b6-1fa1-486a-a26e-1c9800ab6125",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "042b809b-97d9-4ae1-9075-dca4f38c2698",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
