@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float dashForce = 15f;
     public float dashDuration = 0.2f; // Berapa lama dash berlangsung
     public float dashCooldown = 1f;
-    private bool canDash = true;
+    [SerializeField] bool canDash = true;
 
     [Header("References")]
     public PauseManager pauseManager;
@@ -26,32 +26,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void StartDash(InputAction.CallbackContext context)
     {
-        
         if (context.performed && canDash && !pauseManager.isPaused)
         {
-            StartCoroutine(PerformDash());
-        }
-
-        if (context.started)
-        {
-            Debug.Log("Input dash terdeteksi oleh sistem.");
-        }
-
-        if (context.performed)
-        {
-            if (!canDash)
-            {
-                Debug.Log("Dash gagal: Masih dalam cooldown.");
-                return;
-            }
-
-            if (pauseManager.isPaused)
-            {
-                Debug.Log("Dash gagal: Game sedang di-pause.");
-                return;
-            }
-
-            Debug.Log("Dash berhasil di-trigger!");
             StartCoroutine(PerformDash());
         }
     }
@@ -60,39 +36,24 @@ public class PlayerMovement : MonoBehaviour
     {
         canDash = false;
 
-        
         Ray ray = Camera.main.ScreenPointToRay(_mousePosRef.screenSpace);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero); 
-        
+        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+
         if (groundPlane.Raycast(ray, out float rayDistance))
         {
             Vector3 targetPoint = ray.GetPoint(rayDistance);
-            
-            
-            Vector3 dashDirection = (targetPoint - transform.position).normalized;
-            dashDirection.y = 0; 
 
-            
+            Vector3 dashDirection = (targetPoint - transform.position).normalized;
+            dashDirection.y = 0;
+
             _rb.linearVelocity = dashDirection * dashForce;
         }
 
-       
         yield return new WaitForSeconds(dashDuration);
         _rb.linearVelocity = Vector3.zero;
-
         
         yield return new WaitForSeconds(dashCooldown - dashDuration);
         canDash = true;
         Debug.Log("Dash siap digunakan");
     }
-
-    //void Update()
-    //{
-    //    if (Mouse.current == null) { Debug.LogError("No mouse device!"); return; }
-    //
-    //    if (Mouse.current.leftButton.wasPressedThisFrame)
-    //        Debug.Log("RAW left click detected");
-    //
-    //    Debug.Log("RAW mouse pos: " + Mouse.current.position.ReadValue());
-    //}
 }

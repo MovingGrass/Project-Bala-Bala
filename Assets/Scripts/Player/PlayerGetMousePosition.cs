@@ -9,6 +9,5 @@ public class PlayerGetMousePosition : MonoBehaviour
     public void OnMouseUpdate(InputAction.CallbackContext context)
     {
         screenSpace = context.ReadValue<Vector2>();
-        Debug.Log(screenSpace);
     }
 }
