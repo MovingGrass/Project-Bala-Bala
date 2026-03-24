@@ -1,25 +1,67 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
+using System.Collections;
 
 public class PlayerAttack : MonoBehaviour
 {
-    bool _isCharging;
+    [Header("Sonic Charge Settings")]
+    public float minDashDistance = 3f;
+    public float maxDashDistance = 12f;
+    public float chargeTimeForMax = 2f; // Detik yang dibutuhkan untuk max charge
+    public float minHoldTime = 0.5f;
+    private float _chargeStartTime;
+    private bool _isCharging;
+
+    public PlayerMovement playerMovement;
+    
+    [Header("References")]
+    public Rigidbody rb; // Pastikan assign via Inspector
 
     public void SonicCharge(InputAction.CallbackContext context)
     {
-        if (context.interaction is HoldInteraction)
+        if (playerMovement.isDashing == false)
         {
-            if (context.performed)
+            // STARTED: Mulai menghitung waktu
+            if (context.started)
             {
                 _isCharging = true;
-                Debug.Log("Charging");
+                _chargeStartTime = Time.time;
+                Debug.Log("Charging started...");
             }
-            else if (context.canceled && _isCharging)
+            // CANCELED: Tombol dilepas, lakukan dash
+            else if (context.canceled && _isCharging && context.duration >= minHoldTime)
             {
                 _isCharging = false;
-                Debug.Log("Sonic Slash");
+                float holdDuration = Time.time - _chargeStartTime;
+
+                // Hitung jarak (Clamp agar tidak kurang dari min atau lebih dari max)
+                float chargeFactor = Mathf.Clamp01(holdDuration / chargeTimeForMax);
+                float finalDashDistance = Mathf.Lerp(minDashDistance, maxDashDistance, chargeFactor);
+
+                PerformSonicDash(finalDashDistance);
             }
+        }
+        
+    }
+
+    private void PerformSonicDash(float distance)
+    {
+        // Ambil posisi mouse saat dash dilepas
+        Vector3 mousePos = Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        Plane groundPlane = new Plane(Vector3.up, transform.position);
+
+        if (groundPlane.Raycast(ray, out float rayDistance))
+        {
+            Vector3 targetPoint = ray.GetPoint(rayDistance);
+            Vector3 dashDirection = (targetPoint - transform.position).normalized;
+            dashDirection.y = 0;
+
+            // Terapkan dash
+            // Menggunakan MovePosition atau velocity tergantung style game anda
+            rb.AddForce(dashDirection * (distance * 5f), ForceMode.Impulse);
+            
+            Debug.Log($"Sonic Slash! Jarak: {distance:F2}");
         }
     }
 }

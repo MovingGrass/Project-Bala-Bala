@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     private PlayerGetMousePosition _mousePosRef;
     private Rigidbody _rb;
 
+    [HideInInspector] public bool isDashing = false;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -34,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator PerformDash()
     {
+        isDashing = true;
         canDash = false;
 
         Ray ray = Camera.main.ScreenPointToRay(_mousePosRef.screenSpace);
@@ -51,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(dashDuration);
         _rb.linearVelocity = Vector3.zero;
+        isDashing = false;
         
         yield return new WaitForSeconds(dashCooldown - dashDuration);
         canDash = true;
