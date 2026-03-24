@@ -626,6 +626,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e831bbe32bbbd284094876d53968d936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  minDashDistance: 3
+  maxDashDistance: 12
+  chargeTimeForMax: 2
+  minHoldTime: 0.5
+  playerMovement: {fileID: 1585860623}
+  rb: {fileID: 1585860618}
 --- !u!54 &1585860618
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -762,7 +768,9 @@ MonoBehaviour:
   dashForce: 15
   dashDuration: 0.2
   dashCooldown: 1
+  canDash: 1
   pauseManager: {fileID: 484218877}
+  isDashing: 0
 --- !u!114 &1585860624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -837,7 +845,19 @@ MonoBehaviour:
     m_ActionId: 740d0a17-31ef-4b4f-b2d2-ebfdfca133bd
     m_ActionName: 'Player/Parry[/Mouse/rightButton]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1585860614}
+        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
+        m_MethodName: SonicCharge
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 720e3b92-1cb1-4fba-98ef-078df5f16ef5
     m_ActionName: 'Player/Sonic Slash[/Mouse/leftButton]'
   - m_PersistentCalls:
