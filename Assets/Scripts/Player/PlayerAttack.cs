@@ -12,14 +12,20 @@ public class PlayerAttack : MonoBehaviour
     private float _chargeStartTime;
     private bool _isCharging;
 
-    public PlayerMovement playerMovement;
-    
     [Header("References")]
     public Rigidbody rb; // Pastikan assign via Inspector
+    private PlayerMovement _playerMovement;
+    private PlayerGetMousePosition _mousePosRef;
+
+    public void Awake()
+    {
+        _playerMovement = GetComponent<PlayerMovement>();
+        _mousePosRef = GetComponent<PlayerGetMousePosition>();
+    }
 
     public void SonicCharge(InputAction.CallbackContext context)
     {
-        if (playerMovement.isDashing == false)
+        if (_playerMovement.isDashing == false)
         {
             // STARTED: Mulai menghitung waktu
             if (context.started)
@@ -38,30 +44,9 @@ public class PlayerAttack : MonoBehaviour
                 float chargeFactor = Mathf.Clamp01(holdDuration / chargeTimeForMax);
                 float finalDashDistance = Mathf.Lerp(minDashDistance, maxDashDistance, chargeFactor);
 
-                PerformSonicDash(finalDashDistance);
+                StartCoroutine(_playerMovement.PerformDash(_mousePosRef.screenSpace));
             }
         }
         
-    }
-
-    private void PerformSonicDash(float distance)
-    {
-        // Ambil posisi mouse saat dash dilepas
-        Vector3 mousePos = Mouse.current.position.ReadValue();
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
-        Plane groundPlane = new Plane(Vector3.up, transform.position);
-
-        if (groundPlane.Raycast(ray, out float rayDistance))
-        {
-            Vector3 targetPoint = ray.GetPoint(rayDistance);
-            Vector3 dashDirection = (targetPoint - transform.position).normalized;
-            dashDirection.y = 0;
-
-            // Terapkan dash
-            // Menggunakan MovePosition atau velocity tergantung style game anda
-            rb.AddForce(dashDirection * (distance * 5f), ForceMode.Impulse);
-            
-            Debug.Log($"Sonic Slash! Jarak: {distance:F2}");
-        }
     }
 }

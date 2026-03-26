@@ -30,16 +30,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed && canDash && !pauseManager.isPaused)
         {
-            StartCoroutine(PerformDash());
+            StartCoroutine(PerformDash(_mousePosRef.screenSpace));
         }
     }
 
-    private IEnumerator PerformDash()
+    public IEnumerator PerformDash(Vector3 camerapos)
     {
         isDashing = true;
         canDash = false;
 
-        Ray ray = Camera.main.ScreenPointToRay(_mousePosRef.screenSpace);
+        Ray ray = Camera.main.ScreenPointToRay(camerapos);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
 
         if (groundPlane.Raycast(ray, out float rayDistance))
