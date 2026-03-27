@@ -44,6 +44,8 @@ public class PlayerAttack : MonoBehaviour
                 float chargeFactor = Mathf.Clamp01(holdDuration / chargeTimeForMax);
                 float finalDashDistance = Mathf.Lerp(minDashDistance, maxDashDistance, chargeFactor);
 
+                Debug.Log("Player Attack");
+
                 StartCoroutine(_playerMovement.PerformDash(_mousePosRef.screenSpace));
             }
         }
