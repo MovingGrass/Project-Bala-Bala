@@ -50,6 +50,9 @@ public class PlayerMovement : MonoBehaviour
             dashDirection.y = 0;
 
             _rb.linearVelocity = dashDirection * dashForce;
+
+            //camera shake demo (nyoba aja)
+            CameraShake.instance.ShakeCamera(intensity: 3f, time: 0.2f);
         }
 
         yield return new WaitForSeconds(dashDuration);

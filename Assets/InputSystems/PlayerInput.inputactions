@@ -21,7 +21,7 @@
                     "id": "d02c2d26-1806-4ffb-b2b1-609b6c890d26",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "Tap(duration=0.2,pressPoint=0.5)",
                     "initialStateCheck": false
                 },
                 {
