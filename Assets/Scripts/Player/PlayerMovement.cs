@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool canDash = true;
 
     [Header("References")]
-    public PauseManager pauseManager;
     private PlayerGetMousePosition _mousePosRef;
     private Rigidbody _rb;
 
@@ -28,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void StartDash(InputAction.CallbackContext context)
     {
-        if (context.performed && canDash && !pauseManager.isPaused)
+        if (context.performed && canDash && !PauseManager.instance.isPaused && !OpenInventory.instance.isPaused)
         {
             StartCoroutine(PerformDash(_mousePosRef.screenSpace));
         }

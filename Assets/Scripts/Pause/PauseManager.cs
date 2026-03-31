@@ -4,7 +4,21 @@ using UnityEngine.InputSystem.Interactions;
 
 public class PauseManager : MonoBehaviour
 {
+    public static PauseManager instance;
+
     public bool isPaused;
+    public GameObject pausedCanvas;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    private void Start()
+    {
+        pausedCanvas.SetActive(false);
+        isPaused = false;
+    }
 
     public void OnPress(InputAction.CallbackContext context)
     {
@@ -12,20 +26,18 @@ public class PauseManager : MonoBehaviour
         {
             if (context.performed)
             {
-                ChangePauseState();
-                openCanvas();
-                Debug.Log("Paused");
+                interactCanvas();
             }
         }
     }
 
-    public void ChangePauseState()
+    private void interactCanvas()
     {
-        isPaused = !isPaused;
-    }
-    private void openCanvas()
-    {
+        pausedCanvas.SetActive(!pausedCanvas.activeSelf);
+        Debug.Log($"Inventory : {pausedCanvas.activeSelf}");
 
+        isPaused = !isPaused;
+        Debug.Log($"Paused : {isPaused}");
     }
 }
 
