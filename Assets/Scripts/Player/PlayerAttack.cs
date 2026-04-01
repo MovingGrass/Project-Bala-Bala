@@ -10,6 +10,7 @@ public class PlayerAttack : MonoBehaviour
     public float maxDashDistance = 12f;
     public float chargeTimeForMax = 2f; // Detik yang dibutuhkan untuk max charge
     public float minHoldTime = 0.5f;
+    private float _finalDashDistance;
     private float _chargeStartTime;
     private bool _isCharging;
     private bool _isFullyDecayed;
@@ -124,14 +125,21 @@ public class PlayerAttack : MonoBehaviour
             // CANCELED: Tombol dilepas, lakukan dash
             else if (context.canceled && _isCharging && context.duration >= minHoldTime)
             {
-                StopDecay();
-
                 _isCharging = false;
-                float finalDashDistance = Mathf.Lerp(minDashDistance, maxDashDistance, _currentChargeFactor);
 
-                Debug.Log($"Player Attack with charge factor: {_currentChargeFactor:F2}");
+                if (_isFullyDecayed)
+                {
+                    _finalDashDistance = 0f;
+                }
+                else
+                {
+                    _finalDashDistance = Mathf.Lerp(minDashDistance, maxDashDistance, _currentChargeFactor);
+                }
 
-                StartCoroutine(PerformDash(_mousePosRef.screenSpace, finalDashDistance));
+                Debug.Log($"Final Dash distance: {_finalDashDistance}");
+
+                StartCoroutine(PerformDash(_mousePosRef.screenSpace, _finalDashDistance));
+                StopDecay();
                 dashIndicator.gameObject.SetActive(false);
 
                 _currentChargeFactor = 0f;
@@ -170,7 +178,10 @@ public class PlayerAttack : MonoBehaviour
             rb.linearVelocity = dashDirection * dashForce;
             Debug.Log(dashForce);
 
-            CameraShake.instance.ShakeCamera(intensity: 3f, time: 0.2f);
+            if (!_isFullyDecayed)
+            {
+                CameraShake.instance.ShakeCamera(intensity: 3f, time: 0.2f);
+            }
         }
 
         yield return new WaitForSeconds(0.2f);
