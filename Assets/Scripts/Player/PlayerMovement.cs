@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerGetMousePosition _mousePosRef;
     private Rigidbody _rb;
 
-    [HideInInspector] public bool isDashing = false;
+    public bool isDashing = false;
 
     private void Awake()
     {
@@ -60,6 +60,6 @@ public class PlayerMovement : MonoBehaviour
         
         yield return new WaitForSeconds(dashCooldown - dashDuration);
         canDash = true;
-        Debug.Log("Dash siap digunakan");
+        Debug.Log("[Player Movement] Dash siap digunakan");
     }
 }

@@ -67,7 +67,7 @@ public class PlayerAttack : MonoBehaviour
 
     private IEnumerator HandleFullChargeAndDecay()
     {
-        Debug.Log("Fully charged! Waiting before decay...");
+        Debug.Log("[Player Attack] Fully charged! Waiting before decay...");
         yield return new WaitForSeconds(_fullChargeDelay);
 
         while (_isCharging && _currentChargeFactor > 0)
@@ -79,7 +79,7 @@ public class PlayerAttack : MonoBehaviour
 
             if (_currentChargeFactor <= 0)
             {
-                Debug.Log("Fully Decayed");
+                Debug.Log("[Player Attack] Fully Decayed");
                 _isFullyDecayed = true;
                 break;
             }
@@ -102,7 +102,7 @@ public class PlayerAttack : MonoBehaviour
         _isFullyDecayed = false;
     }
 
-
+    
     public void SonicCharge(InputAction.CallbackContext context)
     {
         if (_playerMovement.isDashing == false && !PauseManager.instance.isPaused && !OpenInventory.instance.isPaused)
@@ -119,7 +119,7 @@ public class PlayerAttack : MonoBehaviour
                 // Stop any ongoing decay
                 StopDecay();
 
-                Debug.Log("Charging started...");
+                Debug.Log("[Player Attack] Charging started...");
             }
 
             // CANCELED: Tombol dilepas, lakukan dash
@@ -136,7 +136,7 @@ public class PlayerAttack : MonoBehaviour
                     _finalDashDistance = Mathf.Lerp(minDashDistance, maxDashDistance, _currentChargeFactor);
                 }
 
-                Debug.Log($"Final Dash distance: {_finalDashDistance}");
+                Debug.Log($"[Player Attack] Final Dash distance: {_finalDashDistance}");
 
                 StartCoroutine(PerformDash(_mousePosRef.screenSpace, _finalDashDistance));
                 StopDecay();
@@ -152,7 +152,7 @@ public class PlayerAttack : MonoBehaviour
                 _isCharging = false;
                 dashIndicator.gameObject.SetActive(false);
                 _currentChargeFactor = 0f;
-                Debug.Log("Charge canceled - hold too short");
+                Debug.Log("[Player Attack] Charge canceled - hold too short");
             }
         }
     }
@@ -186,6 +186,6 @@ public class PlayerAttack : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
         rb.linearVelocity = Vector3.zero;
-        Debug.Log("Dash siap digunakan");
+        Debug.Log("[Player Attack] Dash siap digunakan");
     }
 }
