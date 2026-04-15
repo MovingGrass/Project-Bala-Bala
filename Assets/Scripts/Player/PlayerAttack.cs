@@ -108,7 +108,7 @@ public class PlayerAttack : MonoBehaviour
         if (_playerMovement.isDashing == false && !PauseManager.instance.isPaused && !OpenInventory.instance.isPaused)
         {
             // STARTED: Mulai menghitung waktu
-            if (context.started)
+            if (context.performed)
             {
                 _isCharging = true;
                 _chargeStartTime = Time.time;
