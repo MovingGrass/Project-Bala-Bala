@@ -31,7 +31,8 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("References")]
     public Rigidbody rb;
-    public Slider dashIndicator;
+    public GameObject dashUiObject;
+    public Image dashBar;
     private PlayerMovement _playerMovement;
     private PlayerGetMousePosition _mousePosRef;
 
@@ -43,7 +44,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
-        dashIndicator.gameObject.SetActive(false);
+        dashUiObject.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -54,7 +55,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 float currentHoldDuration = Time.time - _chargeStartTime;
                 _currentChargeFactor = Mathf.Clamp01(currentHoldDuration / chargeTimeForMax);
-                dashIndicator.value = _currentChargeFactor;
+                dashBar.fillAmount = _currentChargeFactor;
             }
 
             if (_currentChargeFactor >= 0.99f && !_isDecaying && _decayCoroutine == null)
@@ -75,7 +76,7 @@ public class PlayerAttack : MonoBehaviour
             _currentChargeFactor -= _decayRate;
             _currentChargeFactor = Mathf.Max(0, _currentChargeFactor);
 
-            dashIndicator.value = _currentChargeFactor;
+            dashBar.fillAmount = _currentChargeFactor;
 
             if (_currentChargeFactor <= 0)
             {
@@ -113,8 +114,8 @@ public class PlayerAttack : MonoBehaviour
                 _isCharging = true;
                 _chargeStartTime = Time.time;
                 _currentChargeFactor = 0f;
-                dashIndicator.gameObject.SetActive(true);
-                dashIndicator.value = 0f;
+                dashUiObject.gameObject.SetActive(true);
+                dashBar.fillAmount = 0f;
 
                 // Stop any ongoing decay
                 StopDecay();
@@ -140,7 +141,7 @@ public class PlayerAttack : MonoBehaviour
 
                 StartCoroutine(PerformDash(_mousePosRef.screenSpace, _finalDashDistance));
                 StopDecay();
-                dashIndicator.gameObject.SetActive(false);
+                dashUiObject.gameObject.SetActive(false);
 
                 _currentChargeFactor = 0f;
             }
@@ -150,7 +151,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 StopDecay();
                 _isCharging = false;
-                dashIndicator.gameObject.SetActive(false);
+                dashUiObject.gameObject.SetActive(false);
                 _currentChargeFactor = 0f;
                 Debug.Log("[Player Attack] Charge canceled - hold too short");
             }
