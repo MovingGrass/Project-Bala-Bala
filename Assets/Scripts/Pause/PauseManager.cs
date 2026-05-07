@@ -8,10 +8,8 @@ public class PauseManager : MonoBehaviour
     public static PauseManager instance;
 
     public bool isPaused;
-    public GameObject pausedCanvas;
-
     [Header("Panels")]
-    [SerializeField] private GameObject settingsPanel;
+    public GameObject pausedCanvas;
 
     private void Awake()
     {
@@ -22,9 +20,6 @@ public class PauseManager : MonoBehaviour
     {
         pausedCanvas.SetActive(false);
         isPaused = false;
-
-        if (settingsPanel != null)
-            settingsPanel.SetActive(false);
     }
 
     public void OnPress(InputAction.CallbackContext context)
@@ -33,10 +28,6 @@ public class PauseManager : MonoBehaviour
         {
             if (context.performed)
             {
-                // Only allow toggling pause if settings panel is NOT open
-                if (settingsPanel != null && settingsPanel.activeSelf)
-                    return;
-
                 interactCanvas();
             }
         }
@@ -59,22 +50,16 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
     }
 
-    public void OnOpenSettingsClicked()
-    {
-        if (settingsPanel != null)
-            settingsPanel.SetActive(true);
-    }
-
-    public void OnCloseSettingsClicked()
-    {
-        if (settingsPanel != null)
-            settingsPanel.SetActive(false);
-    }
-
     public void OnExitToMainMenuClicked()
     {
         isPaused = false;
-        // Replace "MainMenu" with your actual main menu scene name
+        //Replace name nnti
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void OnExitGameClicked()
+    {
+        isPaused = false;
+        Application.Quit();
     }
 }
